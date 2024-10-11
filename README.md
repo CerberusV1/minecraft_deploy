@@ -1,2 +1,2 @@
 # minecraft_deploy
-Deploymentscript for an Minecraft Server
+Deploymentscript for an Minecraft Server lol
