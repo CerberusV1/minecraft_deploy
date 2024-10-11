@@ -174,5 +174,5 @@ echo "Creating Start Script"
 
 #!/bin/bash
 echo "#!/bin/bash" > "${working_dir}/start_server.sh"
-echo "tmux new -s minecraft_server "java @user_jvm_args.txt @libraries/net/minecraftforge/forge/${mc_forge_version}/unix_args.txt '$@'"" >> "${working_dir}/start_server.sh"
+echo "tmux new -s minecraft_server "java @user_jvm_args.txt @libraries/net/minecraftforge/forge/${mc_forge_version}/unix_args.txt "$@""" >> "${working_dir}/start_server.sh"
 
