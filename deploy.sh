@@ -17,6 +17,9 @@ cat <<EOF
 
 EOF
 
+# --------------------------------------------------------
+# Checking Dependencies
+# --------------------------------------------------------
 read -p "Is java installed? (y/n): " answer
 if [ "$answer" == "n" ]; then
     echo "apt blah"
@@ -68,27 +71,27 @@ select opt in "${versions[@]}"
 do
     case $opt in
         "1.21.1")
-            echo "Using Minecraft Version 1.21.1"
+            echo "Not Supported yet"
             break
             ;;
         "1.21")
-            echo "Sie haben Option 2 gewählt"
+            echo "Not Supported yet"
             break
             ;;
         "1.20.6")
-            echo "Sie haben Option 3 gewählt"
+            echo "Not Supported yet"
             break
             ;;
         "1.20.4")
-            echo "Abbruch"
+            echo "Not Supported yet"
             break
             ;;
         "1.20.3")
-            echo "Abbruch"
+            echo "Not Supported yet"
             break
             ;;
         "1.20.2")
-            echo "Abbruch"
+            echo "Not Supported yet"
             break
             ;;
         "1.20.1")
@@ -103,25 +106,35 @@ do
 done
 
 
-echo "link with part1: $minecraft_version and part2: $forge_version"
 # echo How much RAM do you want to use?
 # echo What mods do you want to use?
 # echo Which mods do you want to add?
 
+
+# --------------------------------------------------------
+# Installation Misc
+# --------------------------------------------------------
+
+# Set Working Directory
 working_dir="$HOME/minecraft_server"
-mkdir ${working_dir}
-cd ${working_dir}
 
-
+# Connecting Versions
 mc_forge_version="${minecraft_version}-${forge_version}"
 
+# Creating Installer-URL Template
 URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${mc_forge_version}/forge-${mc_forge_version}-installer.jar"
 
 
+# --------------------------------------------------------
+# Downloading Installer
+# --------------------------------------------------------
 
-echo "Downloading installer"
-wget "$working_dir" -P "$URL" > /dev/null &
+echo "Downloading installer...."
+mkdir ${working_dir}
+cd ${working_dir}
+wget "$working_dir" "$URL" > /dev/null 2>&1 & # no output for wget
 
+# Waiting for download to finish
 PID=$!
 (
     while kill -0 $PID 2> /dev/null; do
@@ -131,7 +144,6 @@ PID=$!
     echo "Download finished."
 ) &&
 
-wait $PID
 
 echo "Installing Server"
 sleep 2
@@ -142,14 +154,12 @@ echo "Removing Installer"
 touch "${working_dir}/start_server.sh"
 chmod +x "${working_dir}/start_server.sh"
 
-echo "#!/bin/bash"\
-"tmux new-session -d -s mcServer '\
-cd /pfad/zum/minecraft/server && \
-java -Xms4G -Xmx8G \
--Djava.awt.headless=true \
-@user_jvm_args.txt \
-@libraries/net/minecraftforge/forge/\${mc_forge_version}/unix_args.txt \
-\${mc_forge_version}'" >> "${working_dir}/start_server.sh"
+echo "Creating Start Script"
+
+#!/bin/bash
+echo "#!/bin/bash" > "${working_dir}/start_server.sh"
+echo "tmux new -s minecraft_server "java @user_jvm_args.txt @libraries/net/minecraftforge/forge/${mc_forge_version}/unix_args.txt '$@'"" >> "${working_dir}/start_server.sh"
+
 
 # sh startServer.sh "${mc_forge_version}"
 
