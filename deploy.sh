@@ -22,14 +22,14 @@ EOF
 # --------------------------------------------------------
 read -p "Is java installed? (y/n): " answer
 if [ "$answer" == "n" ]; then
-    echo "apt blah"
-    # sudo apt update && sudo apt upgrade
-    # sudo apt install -y openjdk-17-jdk
-    # sudo apt install -y openjdk-17-jre-headless tmux
-    # sudo echo "#!/bin/bash" >> /etc/rc.local
-    # sudo echo "exec 1>/tmp/rc.local.log 2>&1" >> /etc/rc.local
-    # sudo echo "set -x " >> /etc/rc.local
-    # sudo chmod a+x /etc/rc.local
+    # echo "apt blah"
+    sudo apt update && sudo apt upgrade
+    sudo apt install -y openjdk-17-jdk
+    sudo apt install -y openjdk-17-jre-headless tmux
+    sudo echo "#!/bin/bash" >> /etc/rc.local
+    sudo echo "exec 1>/tmp/rc.local.log 2>&1" >> /etc/rc.local
+    sudo echo "set -x " >> /etc/rc.local
+    sudo chmod a+x /etc/rc.local
 fi
 
 
@@ -147,9 +147,9 @@ PID=$!
 
 echo "Installing Server"
 sleep 2
-# java -jar forge-${mc_forge_version}-installer.jar --installServer
+java -jar forge-${mc_forge_version}-installer.jar --installServer
 echo "Removing Installer"
-# rm "forge-${mc_forge_version}-installer.jar"
+rm "forge-${mc_forge_version}-installer.jar"
 
 touch "${working_dir}/start_server.sh"
 chmod +x "${working_dir}/start_server.sh"
@@ -159,9 +159,4 @@ echo "Creating Start Script"
 #!/bin/bash
 echo "#!/bin/bash" > "${working_dir}/start_server.sh"
 echo "tmux new -s minecraft_server "java @user_jvm_args.txt @libraries/net/minecraftforge/forge/${mc_forge_version}/unix_args.txt '$@'"" >> "${working_dir}/start_server.sh"
-
-
-# sh startServer.sh "${mc_forge_version}"
-
-
 
