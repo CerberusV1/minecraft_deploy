@@ -92,7 +92,7 @@ do
             ;;
         "1.20.1")
             minecraft_version="1.20.1"
-            forge_version="47.2.0"
+            forge_version="47.3.0"
             break
             ;;
         *)
@@ -112,8 +112,12 @@ mkdir ${working_dir}
 cd ${working_dir}
 touch "${working_dir}/start_server.sh"
 
-URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${minecraft_version}/forge-${forge_version}-installer.jar"
+
 mc_forge_version="${minecraft_version}-${forge_version}"
+
+URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${mc_forge_version}/forge-${mc_forge_version}-installer.jar"
+
+
 
 echo "Downloading installer"
 wget "$working_dir" "$URL"
