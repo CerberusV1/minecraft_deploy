@@ -22,6 +22,7 @@ if [ "$answer" == "n" ]; then
     echo "apt blah"
     # sudo apt update && sudo apt upgrade
     # sudo apt install -y openjdk-17-jdk
+    # sudo apt install -y openjdk-17-jre-headless tmux
     # sudo echo "#!/bin/bash" >> /etc/rc.local
     # sudo echo "exec 1>/tmp/rc.local.log 2>&1" >> /etc/rc.local
     # sudo echo "set -x " >> /etc/rc.local
@@ -110,7 +111,6 @@ echo "link with part1: $minecraft_version and part2: $forge_version"
 working_dir="$HOME/minecraft_server"
 mkdir ${working_dir}
 cd ${working_dir}
-touch "${working_dir}/start_server.sh"
 
 
 mc_forge_version="${minecraft_version}-${forge_version}"
@@ -120,7 +120,8 @@ URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${mc_forge_versio
 
 
 echo "Downloading installer"
-wget "$working_dir" "$URL"
+wget "$working_dir" "$URL" &
+wait $PID
 
 echo "Installing Server"
 sleep 2
@@ -128,8 +129,18 @@ sleep 2
 echo "Removing Installer"
 # rm "forge-${mc_forge_version}-installer.jar"
 
+touch "${working_dir}/start_server.sh"
 chmod +x "${working_dir}/start_server.sh"
-echo "java -Djava.awt.headless=true @user_jvm_args.txt @libraries/net/minecraftforge/forge/"${mc_forge_version}"/unix_args.txt "$mc_forge_version"" >> "${working_dir}/start_server.sh"
+
+echo "#!/bin/bash"\
+"tmux new-session -d -s mcServer '\
+cd /pfad/zum/minecraft/server && \
+java -Xms4G -Xmx8G \
+-Djava.awt.headless=true \
+@user_jvm_args.txt \
+@libraries/net/minecraftforge/forge/\${mc_forge_version}/unix_args.txt \
+\${mc_forge_version}'" >> "${working_dir}/start_server.sh"
+
 # sh startServer.sh "${mc_forge_version}"
 
 
