@@ -109,13 +109,14 @@ echo "link with part1: $minecraft_version and part2: $forge_version"
 
 working_dir="$HOME/minecraft_server"
 mkdir ${working_dir}
+cd ${working_dir}
 touch "${working_dir}/start_server.sh"
 
 URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${minecraft_version}/forge-${forge_version}-installer.jar"
 mc_forge_version="${minecraft_version}-${forge_version}"
 
 echo "Downloading installer"
-# wget "$" "$URL"
+wget "$working_dir" "$URL"
 
 echo "Installing Server"
 sleep 2
