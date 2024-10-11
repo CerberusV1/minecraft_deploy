@@ -21,7 +21,7 @@ EOF
 # Checking Dependencies
 # --------------------------------------------------------
 read -p "Is java installed? (y/n): " answer
-if ["$answer" == "n"]; then
+if ["$answer" == n]; then
     # echo "apt blah"
     sudo apt update && sudo apt upgrade
     sudo apt install -y openjdk-17-jdk
