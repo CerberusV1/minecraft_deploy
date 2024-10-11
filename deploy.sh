@@ -120,7 +120,7 @@ URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${mc_forge_versio
 
 
 echo "Downloading installer"
-wget "$working_dir" "$URL" &
+wget "$working_dir" -P "$URL" > /dev/null &
 
 PID=$!
 (
@@ -129,7 +129,7 @@ PID=$!
         sleep 2
     done
     echo "Download finished."
-) &
+) &&
 
 wait $PID
 
