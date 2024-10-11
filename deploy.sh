@@ -118,7 +118,7 @@ echo "Downloading installer"
 # wget "$" "$URL"
 
 echo "Installing Server"
-sleep 5
+sleep 2
 # java -jar forge-${mc_forge_version}-installer.jar --installServer
 echo "Removing Installer"
 # rm "forge-${mc_forge_version}-installer.jar"
