@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script in strict mode
-set -eu
+# set -eou pipefail
 # --------------------------------------------------------------------------
 # Imports
 
