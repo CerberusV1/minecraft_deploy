@@ -121,6 +121,7 @@ URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${mc_forge_versio
 
 echo "Downloading installer"
 wget "$working_dir" "$URL" &
+PID=$!
 wait $PID
 
 echo "Installing Server"
