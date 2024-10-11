@@ -20,18 +20,34 @@ EOF
 # --------------------------------------------------------
 # Checking Dependencies
 # --------------------------------------------------------
-read -p "Is java installed? (y/n): " answer
-if ["$answer" == n]; then
-    # echo "apt blah"
-    sudo apt update && sudo apt upgrade
-    sudo apt install -y openjdk-17-jdk
-    sudo apt install -y openjdk-17-jre-headless tmux
-    sudo echo "#!/bin/bash" >> /etc/rc.local
-    sudo echo "exec 1>/tmp/rc.local.log 2>&1" >> /etc/rc.local
-    sudo echo "set -x " >> /etc/rc.local
-    sudo chmod a+x /etc/rc.local
-fi
 
+# Ask the user if Java is installed
+read -p "Is Java installed? (y/n): " answer
+
+# If the user answers "n", Java and other packages will be installed
+if [[ "$answer" = "n" ]]; then
+    # Update and install necessary packages
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless tmux
+
+    # Add necessary commands to /etc/rc.local with proper permissions
+    sudo tee -a /etc/rc.local > /dev/null <<EOL
+#!/bin/bash
+exec 1>/tmp/rc.local.log 2>&1
+set -x
+EOL
+
+    # Make /etc/rc.local executable
+    sudo chmod +x /etc/rc.local
+
+# If the user answers "y", proceed with the script without installing Java
+elif [[ "$answer" = "y" ]]; then
+    echo "Java is already installed, proceeding..."
+else
+    # If user inputs anything else, show an error message
+    echo "Invalid input. Please enter 'y' or 'n'."
+    exit 1
+fi
 
 # --------------------------------------------------------
 # Modloader Selection
