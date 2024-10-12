@@ -145,7 +145,7 @@ URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${mc_forge_versio
 # Downloading Installer
 # --------------------------------------------------------
 
-echo "Downloading installer...."
+echo "Downloading Installer"
 mkdir ${working_dir}
 cd ${working_dir}
 wget "$working_dir" "$URL" > /dev/null 2>&1 & # no output for wget
@@ -165,7 +165,7 @@ echo "Installing Server"
 sleep 2
 java -jar forge-${mc_forge_version}-installer.jar --installServer > /dev/null 2>&1
 
-java -jar forge-${mc_forge_version}-installer.jar --installServer &
+# java -jar forge-${mc_forge_version}-installer.jar --installServer &
 # Store the PID of the installer process
 PID=$!
 
