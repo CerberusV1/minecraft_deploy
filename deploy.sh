@@ -80,7 +80,7 @@ mkdir $server_dir
 
 echo What Modloader should be used?
 
-modloader= ("Forge" "Fabric")
+modloader=("Forge" "Fabric")
 
 select opt in "${modloader[@]}"
 do
