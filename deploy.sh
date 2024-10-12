@@ -58,35 +58,37 @@ check_rc_local() {
 check_rc_local
 rc_local_modified=$?
 
-# If Java or Tmux is not installed, or rc.local is not modified, install/modify
-if [[ $java_installed -ne 0 || $tmux_installed -ne 0 || $rc_local_modified -ne 0 ]]; then
-    echo "Some required programs or rc.local modifications are missing. Installing..."
+# Update and install the necessary packages if required
+echo "Checking and installing missing packages..."
 
-    # Update and install the necessary packages
-    sudo apt update && sudo apt upgrade -y
+# Update package lists
+sudo apt update && sudo apt upgrade -y
 
-    if [[ $java_installed -ne 0 ]]; then
-        sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless
-    fi
+# Install Java if not installed
+if [[ $java_installed -ne 0 ]]; then
+    echo "Installing Java..."
+    sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless
+fi
 
-    if [[ $tmux_installed -ne 0 ]]; then
-        sudo apt install -y tmux
-    fi
+# Install Tmux if not installed
+if [[ $tmux_installed -ne 0 ]]; then
+    echo "Installing Tmux..."
+    sudo apt install -y tmux
+fi
 
-    # Only append to rc.local if changes are missing
-    if [[ $rc_local_modified -ne 0 ]]; then
-        sudo tee -a /etc/rc.local > /dev/null <<EOL
+# Append to /etc/rc.local if changes are missing
+if [[ $rc_local_modified -ne 0 ]]; then
+    echo "Adding necessary changes to /etc/rc.local..."
+    sudo tee -a /etc/rc.local > /dev/null <<EOL
 #!/bin/bash
 exec 1>/tmp/rc.local.log 2>&1
 set -x
 EOL
-        # Make /etc/rc.local executable
-        sudo chmod +x /etc/rc.local
-    fi
-
-else
-    echo "All required programs are already installed and rc.local is configured. Proceeding with installation..."
+    # Make /etc/rc.local executable
+    sudo chmod +x /etc/rc.local
 fi
+
+echo "All required programs are already installed and rc.local is configured. Proceeding with installation..."
 sleep 2
 
 
