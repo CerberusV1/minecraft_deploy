@@ -128,7 +128,7 @@ done
 
 
 # --------------------------------------------------------
-# Installation Misc
+# Installation Variables
 # --------------------------------------------------------
 
 # Set Working Directory
@@ -149,8 +149,6 @@ echo "Downloading Installer"
 mkdir ${working_dir}
 cd ${working_dir}
 wget "$working_dir" "$URL" > /dev/null 2>&1 & # no output for wget
-
-# Waiting for download to finish
 PID=$!
 (
     while kill -0 $PID 2> /dev/null; do
@@ -161,11 +159,13 @@ PID=$!
 ) &&
 
 
+# --------------------------------------------------------
+# Installing Server
+# --------------------------------------------------------
 echo "Installing Server"
 sleep 2
 java -jar forge-${mc_forge_version}-installer.jar --installServer > /dev/null 2>&1 &
 
-# java -jar forge-${mc_forge_version}-installer.jar --installServer &
 # Store the PID of the installer process
 PID=$!
 
@@ -181,12 +181,17 @@ PID=$!
 echo "Removing Installer"
 rm "forge-${mc_forge_version}-installer.jar"
 
-touch "${working_dir}/start_server.sh"
-chmod +x "${working_dir}/start_server.sh"
 
+# --------------------------------------------------------
+# Installing Server
+# --------------------------------------------------------
+# Will be reworked soon. Aim is to create an stattic 
+# script, server_manager.sh. Version and important information
+# from the install script will be passed in a seperate file
+# which needs to be sourced by the manager.
 echo "Creating Start Script"
-
-#!/bin/bash
+touch "${working_dir}/start_server.sh"
 echo "#!/bin/bash" > "${working_dir}/start_server.sh"
 echo 'tmux new -s minecraft_server 'java -Djava.awt.headless=true @user_jvm_args.txt @libraries/net/minecraftforge/forge/${mc_forge_version}/unix_args.txt "$@"'' >> "${working_dir}/start_server.sh"
+chmod +x "${working_dir}/start_server.sh"
 
