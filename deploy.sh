@@ -144,9 +144,25 @@ echo "Give the minecraft and forge version in following format:"
 echo "mc.version-forge.version    e.g.: 1.20.1-47.3.0"
 read -p "Version: " version
 
-echo $version       # Logging output
-sleep 1
+# echo $version       # Logging output
+# sleep 1
+
 # Building installer download URL
 URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${version}/forge-${version}-installer.jar"
+# echo $URL       # Logging output
 
-echo $URL       # Logging output
+
+# --------------------------------------------------------
+# Downloading Installer
+# --------------------------------------------------------
+
+echo "Downloading Installer"
+wget "$server_dir" "$URL" > /dev/null 2>&1 & # no output for wget
+PID=$!
+(
+    while kill -0 $PID 2> /dev/null; do
+        echo "Downloading....."
+        sleep 1
+    done
+    echo "Download finished."
+) &&
