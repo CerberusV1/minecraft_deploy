@@ -25,69 +25,69 @@ EOF
 echo "Checking dependencies..."
 sleep 2
 # Function to check if a program is installed
-check_installed() {
-    if ! which "$1" > /dev/null 2>&1; then
-        echo "$1 will be installed..."
-        return 1
-    else
-        echo "$1 is already installed."
-        return 0
-    fi
-}
+# check_installed() {
+#     if ! which "$1" > /dev/null 2>&1; then
+#         echo "$1 will be installed..."
+#         return 1
+#     else
+#         echo "$1 is already installed."
+#         return 0
+#     fi
+# }
 
-# Check if Java is installed
-check_installed java
-java_installed=$?
+# # Check if Java is installed
+# check_installed java
+# java_installed=$?
 
-# Check if Tmux is installed
-check_installed tmux
-tmux_installed=$?
+# # Check if Tmux is installed
+# check_installed tmux
+# tmux_installed=$?
 
-# Function to check if /etc/rc.local already contains the required lines
-check_rc_local() {
-    if grep -q "exec 1>/tmp/rc.local.log 2>&1" /etc/rc.local && grep -q "set -x" /etc/rc.local; then
-        echo "rc.local is already configured"
-        return 0
-    else
-        echo "rc.local not configured"
-        return 1
-    fi
-}
+# # Function to check if /etc/rc.local already contains the required lines
+# check_rc_local() {
+#     if grep -q "exec 1>/tmp/rc.local.log 2>&1" /etc/rc.local && grep -q "set -x" /etc/rc.local; then
+#         echo "rc.local is already configured"
+#         return 0
+#     else
+#         echo "rc.local not configured"
+#         return 1
+#     fi
+# }
 
-# Check if the changes in rc.local are already applied
-check_rc_local
-rc_local_modified=$?
+# # Check if the changes in rc.local are already applied
+# check_rc_local
+# rc_local_modified=$?
 
-# If Java or Tmux is not installed, or rc.local is not modified, install/modify
-if [[ $java_installed -ne 0 || $tmux_installed -ne 0 || $rc_local_modified -ne 0 ]]; then
-    echo "Some required programs or rc.local modifications are missing. Installing..."
+# # If Java or Tmux is not installed, or rc.local is not modified, install/modify
+# if [[ $java_installed -ne 0 || $tmux_installed -ne 0 || $rc_local_modified -ne 0 ]]; then
+#     echo "Some required programs or rc.local modifications are missing. Installing..."
 
-    # Update and install the necessary packages
-    sudo apt update && sudo apt upgrade -y
+#     # Update and install the necessary packages
+#     sudo apt update && sudo apt upgrade -y
 
-    if [[ $java_installed -ne 0 ]]; then
-        sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless
-    fi
+#     if [[ $java_installed -ne 0 ]]; then
+#         sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless
+#     fi
 
-    if [[ $tmux_installed -ne 0 ]]; then
-        sudo apt install -y tmux
-    fi
+#     if [[ $tmux_installed -ne 0 ]]; then
+#         sudo apt install -y tmux
+#     fi
 
-    # Only append to rc.local if changes are missing
-    if [[ $rc_local_modified -ne 0 ]]; then
-        sudo tee -a /etc/rc.local > /dev/null <<EOL
-#!/bin/bash
-exec 1>/tmp/rc.local.log 2>&1
-set -x
-EOL
-        # Make /etc/rc.local executable
-        sudo chmod +x /etc/rc.local
-    fi
+#     # Only append to rc.local if changes are missing
+#     if [[ $rc_local_modified -ne 0 ]]; then
+#         sudo tee -a /etc/rc.local > /dev/null <<EOL
+# #!/bin/bash
+# exec 1>/tmp/rc.local.log 2>&1
+# set -x
+# EOL
+#         # Make /etc/rc.local executable
+#         sudo chmod +x /etc/rc.local
+#     fi
 
-else
-    echo "All required programs are already installed and rc.local is configured. Proceeding with installation..."
-fi
-sleep 2
+# else
+#     echo "All required programs are already installed and rc.local is configured. Proceeding with installation..."
+# fi
+# sleep 2
 
 
 # --------------------------------------------------------
@@ -157,7 +157,7 @@ URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${version}/forge-
 # --------------------------------------------------------
 
 echo "Downloading Installer..."
-wget -P $server_dir "$URL" > /dev/null 2>&1 & # no output for wget
+wget -P $server_dir "$URL" -o "$management_logs/wget.log" & # no output for wget
 PID=$!
 (
     while kill -0 $PID 2> /dev/null; do
@@ -166,15 +166,16 @@ PID=$!
     done
     echo "Download finished."
 ) &
-
+wait $PID
+sleep 2
 
 # --------------------------------------------------------
 # Installing Server
 # --------------------------------------------------------
 echo "Installing Server"
-cd ${server_dir}
+cd "${server_dir}"
 sleep 1
-java -jar forge-${mc_forge_version}-installer.jar --installServer > /dev/null 2>&1 &
+java -jar forge-${version}-installer.jar --installServer > /dev/null 2>&1 &
 
 # Store the PID of the installer process
 PID=$!
@@ -189,4 +190,4 @@ PID=$!
 )
 
 echo "Removing Installer"
-rm "forge-${mc_forge_version}-installer.jar"
+# rm "forge-${version}-installer.jar"
