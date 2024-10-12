@@ -52,7 +52,7 @@ check_rc_local() {
         echo "The changes in rc.local are missing."
         return 1  # Changes are missing
     fi
-}
+} &
 
 # Check if the changes in rc.local are already applied
 check_rc_local
