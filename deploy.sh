@@ -27,11 +27,11 @@ sleep 2
 # Function to check if a program is installed
 check_installed() {
     if ! which "$1" > /dev/null 2>&1; then
-        echo "$1 is missing"
-        return 1
+        echo "$1 is not installed."
+        return 1  # Program is not installed
     else
         echo "$1 is already installed."
-        return 0
+        return 0  # Program is installed
     fi
 }
 
@@ -46,11 +46,11 @@ tmux_installed=$?
 # Function to check if /etc/rc.local already contains the required lines
 check_rc_local() {
     if grep -q "exec 1>/tmp/rc.local.log 2>&1" /etc/rc.local && grep -q "set -x" /etc/rc.local; then
-        echo "rc.local is already configured"
-        return 0
+        echo "The changes in rc.local are already present."
+        return 0  # Changes are present
     else
-        echo "rc.local not configured"
-        return 1
+        echo "The changes in rc.local are missing."
+        return 1  # Changes are missing
     fi
 }
 
@@ -58,22 +58,24 @@ check_rc_local() {
 check_rc_local
 rc_local_modified=$?
 
-# Update and install the necessary packages if required
-echo "Checking and installing missing packages..."
-
 # Update package lists
+echo "Updating package lists..."
 sudo apt update && sudo apt upgrade -y
 
 # Install Java if not installed
 if [[ $java_installed -ne 0 ]]; then
     echo "Installing Java..."
     sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless
+else
+    echo "Java is already installed. Skipping installation."
 fi
 
 # Install Tmux if not installed
 if [[ $tmux_installed -ne 0 ]]; then
     echo "Installing Tmux..."
     sudo apt install -y tmux
+else
+    echo "Tmux is already installed. Skipping installation."
 fi
 
 # Append to /etc/rc.local if changes are missing
@@ -86,6 +88,8 @@ set -x
 EOL
     # Make /etc/rc.local executable
     sudo chmod +x /etc/rc.local
+else
+    echo "No changes needed in /etc/rc.local."
 fi
 
 echo "All required programs are already installed and rc.local is configured. Proceeding with installation..."
