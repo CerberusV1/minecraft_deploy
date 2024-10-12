@@ -57,36 +57,30 @@ rc_local_modified=$?
 
 # If Java or Tmux is not installed, or rc.local is not modified, install/modify
 if [[ $java_installed -ne 0 || $tmux_installed -ne 0 || $rc_local_modified -ne 0 ]]; then
-    read -p "Java, Tmux, or rc.local changes are missing. Do you want to install the required programs/make changes now? (y/n): " answer
+    echo "Some required programs or rc.local modifications are missing. Installing..."
 
-    if [[ "$answer" = "y" ]]; then
-        # Update and install the packages
-        sudo apt update && sudo apt upgrade -y
+    # Update and install the necessary packages
+    sudo apt update && sudo apt upgrade -y
 
-        if [[ $java_installed -ne 0 ]]; then
-            sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless
-        fi
+    if [[ $java_installed -ne 0 ]]; then
+        sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless
+    fi
 
-        if [[ $tmux_installed -ne 0 ]]; then
-            sudo apt install -y tmux
-        fi
+    if [[ $tmux_installed -ne 0 ]]; then
+        sudo apt install -y tmux
+    fi
 
-        # Only append to rc.local if changes are missing
-        if [[ $rc_local_modified -ne 0 ]]; then
-            sudo tee -a /etc/rc.local > /dev/null <<EOL
+    # Only append to rc.local if changes are missing
+    if [[ $rc_local_modified -ne 0 ]]; then
+        sudo tee -a /etc/rc.local > /dev/null <<EOL
 #!/bin/bash
 exec 1>/tmp/rc.local.log 2>&1
 set -x
 EOL
-            # Make /etc/rc.local executable
-            sudo chmod +x /etc/rc.local
-        fi
-
-    else
-        echo "Installation/changes aborted. Exiting script."
-        exit 1
+        # Make /etc/rc.local executable
+        sudo chmod +x /etc/rc.local
     fi
 
 else
-    echo "All required programs are already installed and rc.local is configured. Proceeding with installation..."
+    echo "All required programs are already installed and rc.local is configured. Proceeding..."
 fi
