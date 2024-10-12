@@ -166,3 +166,5 @@ PID=$!
     done
     echo "Download finished."
 )
+
+sleep 1
