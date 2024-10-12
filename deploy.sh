@@ -24,85 +24,28 @@ EOF
 
 echo "Checking dependencies..."
 sleep 2
-# Function to check if a program is installed
-check_installed() {
-    if ! which "$1" > /dev/null 2>&1; then
-        echo "$1 is not installed."
-        return 1  # Program is not installed
-    else
-        echo "$1 is already installed."
-        return 0  # Program is installed
-    fi
-}
 
-# Check if Java is installed
-check_installed java
-java_installed=$?
+# Check if Java is installed by checking the output of 'java -version'
+if ! java -version &>/dev/null; then
+    echo "Java is not installed. Installing Java and necessary packages..."
 
-# Check if Tmux is installed
-check_installed tmux
-tmux_installed=$?
+    # Update and install necessary packages
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless tmux
 
-# Function to check if /etc/rc.local already contains the required lines
-check_rc_local() {
-    if grep -q "exec 1>/tmp/rc.local.log 2>&1" /etc/rc.local && grep -q "set -x" /etc/rc.local; then
-        echo "The changes in rc.local are already present."
-        return 0  # Changes are present
-    else
-        echo "The changes in rc.local are missing."
-        return 1  # Changes are missing
-    fi
-} &
-
-# Check if the changes in rc.local are already applied
-check_rc_local
-rc_local_modified=$?
-
-# Update package lists
-echo "Updating package lists..."
-sudo apt update && sudo apt upgrade -y
-
-# Install Java if not installed
-if [[ $java_installed -ne 0 ]]; then
-    echo "Installing Java..."
-    if sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless; then
-        echo "Java installed successfully."
-    else
-        echo "Failed to install Java." >&2
-    fi
-else
-    echo "Java is already installed. Skipping installation."
-fi
-
-# Install Tmux if not installed
-if [[ $tmux_installed -ne 0 ]]; then
-    echo "Installing Tmux..."
-    if sudo apt install -y tmux; then
-        echo "Tmux installed successfully."
-    else
-        echo "Failed to install Tmux." >&2
-    fi
-else
-    echo "Tmux is already installed. Skipping installation."
-fi
-
-# Append to /etc/rc.local if changes are missing
-if [[ $rc_local_modified -ne 0 ]]; then
-    echo "Adding necessary changes to /etc/rc.local..."
-    if sudo tee -a /etc/rc.local > /dev/null <<EOL
+    # Add necessary commands to /etc/rc.local if not already present
+    if ! grep -q "exec 1>/tmp/rc.local.log" /etc/rc.local; then
+        sudo tee -a /etc/rc.local > /dev/null <<EOL
 #!/bin/bash
 exec 1>/tmp/rc.local.log 2>&1
 set -x
 EOL
-    then
-        echo "/etc/rc.local updated successfully."
-        # Make /etc/rc.local executable
-        sudo chmod +x /etc/rc.local
-    else
-        echo "Failed to update /etc/rc.local." >&2
     fi
+
+    # Make /etc/rc.local executable
+    sudo chmod +x /etc/rc.local
 else
-    echo "No changes needed in /etc/rc.local."
+    echo "Java is already installed, proceeding..."
 fi
 
 # Final message
