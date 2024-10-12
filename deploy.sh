@@ -17,14 +17,17 @@ cat <<EOF
 
 EOF
 
+
 # --------------------------------------------------------
 # Checking Dependencies
 # --------------------------------------------------------
+
 echo "Checking dependencies..."
+sleep 5
 # Function to check if a program is installed
 check_installed() {
     if ! which "$1" > /dev/null 2>&1; then
-        echo "$1 is not installed."
+        echo "$1 will be installed..."
         return 1
     else
         echo "$1 is already installed."
@@ -43,10 +46,10 @@ tmux_installed=$?
 # Function to check if /etc/rc.local already contains the required lines
 check_rc_local() {
     if grep -q "exec 1>/tmp/rc.local.log 2>&1" /etc/rc.local && grep -q "set -x" /etc/rc.local; then
-        echo "The changes in rc.local are already present."
+        echo "rc.local is already configured"
         return 0
     else
-        echo "The changes in rc.local are missing."
+        echo "rc.local not configured"
         return 1
     fi
 }
@@ -82,5 +85,26 @@ EOL
     fi
 
 else
-    echo "All required programs are already installed and rc.local is configured. Proceeding..."
+    echo "All required programs are already installed and rc.local is configured. Proceeding with installation..."
 fi
+sleep 2
+
+
+# --------------------------------------------------------
+# Installation Directories
+# --------------------------------------------------------
+echo "Give your server a name. Under the ~/servername you can later"
+echo "find all server files and the management script."
+echo "Use "-" or "_" as name seperator!"
+read -p "Servername: " name
+
+working_dir="$HOME/$name"
+management_dir="$HOME/$name/management"
+management_logs="$HOME/$name/management/logs"
+server_dir="$HOME/$name/server"
+
+echo "Creating directories"
+mkdir $working_dir
+mkdir $management_dir
+mkdir $management_logs
+mkdir $server_dir
