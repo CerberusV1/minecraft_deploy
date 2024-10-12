@@ -167,8 +167,6 @@ PID=$!
     echo "Download finished."
 )
 
-sleep 1
-
 
 # --------------------------------------------------------
 # Installing Server
