@@ -126,7 +126,7 @@ PID=$!
 (
     while kill -0 $PID 2> /dev/null; do
         echo "Downloading....."
-        sleep 1
+        sleep 5
     done
     echo "Download finished."
 ) &
