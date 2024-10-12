@@ -108,3 +108,40 @@ mkdir $working_dir
 mkdir $management_dir
 mkdir $management_logs
 mkdir $server_dir
+
+
+# --------------------------------------------------------
+# Modloader Selection
+# --------------------------------------------------------
+
+echo What Modloader should be used?
+
+modloader=("Forge" "Fabric")
+
+select opt in "${modloader[@]}"
+do
+    case $opt in
+        "Forge")
+            break
+            ;;
+        "Fabric")
+            echo "Fabric is not supported yet"
+            exit 1
+            break
+            ;;
+        *)
+            echo "Invalid selection"
+            ;;
+    esac
+done
+
+
+# --------------------------------------------------------
+# Select MC-Version
+# --------------------------------------------------------
+
+echo "Give the minecraft and forge version in following format:"
+echo "mc.version-forge.version    e.g.: 1.20.1-47.3.0"
+read -p "Version: " version
+
+echo $version       # Logging output
