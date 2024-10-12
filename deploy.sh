@@ -133,6 +133,9 @@ done
 
 # Set Working Directory
 working_dir="$HOME/minecraft_server"
+management_dir="$HOME/minecraft_server/management"
+server_dir="$HOME/minecraft_server/server"
+
 
 # Connecting Versions
 mc_forge_version="${minecraft_version}-${forge_version}"
@@ -147,13 +150,13 @@ URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${mc_forge_versio
 
 echo "Downloading Installer"
 mkdir ${working_dir}
-cd ${working_dir}
+mkdir ${server_dir}
 wget "$working_dir" "$URL" > /dev/null 2>&1 & # no output for wget
 PID=$!
 (
     while kill -0 $PID 2> /dev/null; do
         echo "Downloading....."
-        sleep 2
+        sleep 1
     done
     echo "Download finished."
 ) &&
@@ -163,6 +166,7 @@ PID=$!
 # Installing Server
 # --------------------------------------------------------
 echo "Installing Server"
+cd ${server_dir}
 sleep 2
 java -jar forge-${mc_forge_version}-installer.jar --installServer > /dev/null 2>&1 &
 
@@ -173,7 +177,7 @@ PID=$!
 (
     while kill -0 $PID 2> /dev/null; do
         echo "Installing server....."
-        sleep 2
+        sleep 5
     done
     echo "Server installation finished."
 )
@@ -190,8 +194,8 @@ rm "forge-${mc_forge_version}-installer.jar"
 # from the install script will be passed in a seperate file
 # which needs to be sourced by the manager.
 echo "Creating Start Script"
-touch "${working_dir}/start_server.sh"
-echo "#!/bin/bash" > "${working_dir}/start_server.sh"
+touch "${management_dir}/start_server.sh"
+echo "#!/bin/bash" > "${management_dir}/start_server.sh"
 echo 'tmux new -s minecraft_server 'java -Djava.awt.headless=true @user_jvm_args.txt @libraries/net/minecraftforge/forge/${mc_forge_version}/unix_args.txt "$@"'' >> "${working_dir}/start_server.sh"
-chmod +x "${working_dir}/start_server.sh"
+chmod +x "${management_dir}/start_server.sh"
 
