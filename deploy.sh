@@ -145,3 +145,8 @@ echo "mc.version-forge.version    e.g.: 1.20.1-47.3.0"
 read -p "Version: " version
 
 echo $version       # Logging output
+
+# Building installer download URL
+URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${version}/forge-${version}-installer.jar"
+
+echo $URL       # Logging output
