@@ -27,7 +27,7 @@ sleep 2
 # Function to check if a program is installed
 check_installed() {
     if ! which "$1" > /dev/null 2>&1; then
-        echo "$1 will be installed..."
+        echo "$1 is missing"
         return 1
     else
         echo "$1 is already installed."
