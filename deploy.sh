@@ -131,7 +131,7 @@ PID=$!
     echo "Download finished."
 ) &
 wait $PID
-sleep 2
+sleep 6
 
 # --------------------------------------------------------
 # Installing Server
