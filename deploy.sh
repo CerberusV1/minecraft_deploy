@@ -168,7 +168,7 @@ rm run.sh
 echo "Creating Start Script"
 touch $management_dir/start_server.sh
 echo "#!/bin/bash" > "${management_dir}/start_server.sh"
-echo 'tmux new -s minecraft_server 'java -Djava.awt.headless=true @user_jvm_args.txt @libraries/net/minecraftforge/forge/${version}/unix_args.txt "$@"'' >> "${management_dir}/start_server.sh"
+echo 'tmux new -s minecraft_server 'java -Djava.awt.headless=true @$server_dir/user_jvm_args.txt @$server_dir/libraries/net/minecraftforge/forge/${version}/unix_args.txt "$@"'' >> "${management_dir}/start_server.sh"
 chmod +x $management_dir/start_server.sh
 
 echo "You can now find the management script in $management_dir "
