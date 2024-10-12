@@ -20,6 +20,7 @@ EOF
 # --------------------------------------------------------
 # Checking Dependencies
 # --------------------------------------------------------
+echo "Checking dependencies..."
 # Function to check if a program is installed
 check_installed() {
     if ! which "$1" > /dev/null 2>&1; then
