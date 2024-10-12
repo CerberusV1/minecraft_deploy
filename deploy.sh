@@ -157,7 +157,7 @@ URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${version}/forge-
 # --------------------------------------------------------
 
 echo "Downloading Installer..."
-wget $server_dir "$URL" > /dev/null 2>&1 & # no output for wget
+wget $server_dir/ "$URL" > /dev/null 2>&1 & # no output for wget
 PID=$!
 (
     while kill -0 $PID 2> /dev/null; do
