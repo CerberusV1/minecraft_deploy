@@ -65,7 +65,11 @@ sudo apt update && sudo apt upgrade -y
 # Install Java if not installed
 if [[ $java_installed -ne 0 ]]; then
     echo "Installing Java..."
-    sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless
+    if sudo apt install -y openjdk-17-jdk openjdk-17-jre-headless; then
+        echo "Java installed successfully."
+    else
+        echo "Failed to install Java." >&2
+    fi
 else
     echo "Java is already installed. Skipping installation."
 fi
@@ -73,7 +77,11 @@ fi
 # Install Tmux if not installed
 if [[ $tmux_installed -ne 0 ]]; then
     echo "Installing Tmux..."
-    sudo apt install -y tmux
+    if sudo apt install -y tmux; then
+        echo "Tmux installed successfully."
+    else
+        echo "Failed to install Tmux." >&2
+    fi
 else
     echo "Tmux is already installed. Skipping installation."
 fi
@@ -81,18 +89,25 @@ fi
 # Append to /etc/rc.local if changes are missing
 if [[ $rc_local_modified -ne 0 ]]; then
     echo "Adding necessary changes to /etc/rc.local..."
-    sudo tee -a /etc/rc.local > /dev/null <<EOL
+    if sudo tee -a /etc/rc.local > /dev/null <<EOL
 #!/bin/bash
 exec 1>/tmp/rc.local.log 2>&1
 set -x
 EOL
-    # Make /etc/rc.local executable
-    sudo chmod +x /etc/rc.local
+    then
+        echo "/etc/rc.local updated successfully."
+        # Make /etc/rc.local executable
+        sudo chmod +x /etc/rc.local
+    else
+        echo "Failed to update /etc/rc.local." >&2
+    fi
 else
     echo "No changes needed in /etc/rc.local."
 fi
 
+# Final message
 echo "All required programs are already installed and rc.local is configured. Proceeding with installation..."
+
 sleep 2
 
 
