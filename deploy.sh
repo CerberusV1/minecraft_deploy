@@ -168,3 +168,27 @@ PID=$!
 )
 
 sleep 1
+
+
+# --------------------------------------------------------
+# Installing Server
+# --------------------------------------------------------
+echo "Installing Server"
+cd ${server_dir}
+sleep 1
+java -jar forge-${mc_forge_version}-installer.jar --installServer > /dev/null 2>&1 &
+
+# Store the PID of the installer process
+PID=$!
+
+# Progress monitoring while the server is installing
+(
+    while kill -0 $PID 2> /dev/null; do
+        echo "Installing server....."
+        sleep 5
+    done
+    echo "Server installation finished."
+)
+
+echo "Removing Installer"
+rm "forge-${mc_forge_version}-installer.jar"
