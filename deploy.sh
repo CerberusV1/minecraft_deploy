@@ -23,7 +23,7 @@ EOF
 # --------------------------------------------------------
 
 echo "Checking dependencies..."
-sleep 5
+sleep 2
 # Function to check if a program is installed
 check_installed() {
     if ! which "$1" > /dev/null 2>&1; then
@@ -145,7 +145,7 @@ echo "mc.version-forge.version    e.g.: 1.20.1-47.3.0"
 read -p "Version: " version
 
 echo $version       # Logging output
-
+sleep 1
 # Building installer download URL
 URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${version}/forge-${version}-installer.jar"
 
