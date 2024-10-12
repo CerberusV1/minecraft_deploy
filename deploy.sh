@@ -163,7 +163,7 @@ PID=$!
 
 echo "Installing Server"
 sleep 2
-java -jar forge-${mc_forge_version}-installer.jar --installServer > /dev/null 2>&1
+java -jar forge-${mc_forge_version}-installer.jar --installServer > /dev/null 2>&1 &
 
 # java -jar forge-${mc_forge_version}-installer.jar --installServer &
 # Store the PID of the installer process
