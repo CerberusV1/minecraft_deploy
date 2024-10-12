@@ -166,9 +166,9 @@ rm run.sh
 # from the install script will be passed in a seperate file
 # which needs to be sourced by the manager.
 echo "Creating Start Script"
-touch "${management_dir}/start_server.sh"
+touch $management_dir/start_server.sh
 echo "#!/bin/bash" > "${management_dir}/start_server.sh"
 echo 'tmux new -s minecraft_server 'java -Djava.awt.headless=true @user_jvm_args.txt @libraries/net/minecraftforge/forge/${version}/unix_args.txt "$@"'' >> "${working_dir}/start_server.sh"
-chmod +x "${management_dir}/start_server.sh"
+chmod +x $management_dir}/start_server.sh
 
 echo "You can now find the management script in $management_dir "
