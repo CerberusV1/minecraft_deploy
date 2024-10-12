@@ -156,5 +156,6 @@ PID=$!
 echo "Removing Installer"
 rm "forge-${version}-installer.jar"
 mv "forge-${version}-installer.jar.log" $management_logs
+rm run.sh
 
-echo "You can now find the management script in /$HOME/$management_dir "
+echo "You can now find the management script in $management_dir "
