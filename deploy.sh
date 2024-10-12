@@ -95,7 +95,7 @@ sleep 2
 # --------------------------------------------------------
 echo "Give your server a name. Under the ~/servername you can later"
 echo "find all server files and the management script."
-echo "Use "-" or "_" as name seperator!"
+echo 'Use "-" or "_" as name seperator!'
 read -p "Servername: " name
 
 working_dir="$HOME/$name"
