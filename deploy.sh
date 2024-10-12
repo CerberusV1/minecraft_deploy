@@ -100,7 +100,7 @@ read -p "Servername: " name
 
 working_dir="$HOME/$name"
 management_dir="$HOME/$name/management"
-management_logs="$HOME/$name/management/logs"
+management_logs="$HOME/$name/management/installation_logs"
 server_dir="$HOME/$name/server"
 
 echo "Creating directories"
