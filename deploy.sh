@@ -151,7 +151,7 @@ URL="https://maven.minecraftforge.net/net/minecraftforge/forge/${mc_forge_versio
 echo "Downloading Installer"
 mkdir ${working_dir}
 mkdir ${server_dir}
-wget "$working_dir" "$URL" > /dev/null 2>&1 & # no output for wget
+wget "$server_dir" "$URL" > /dev/null 2>&1 & # no output for wget
 PID=$!
 (
     while kill -0 $PID 2> /dev/null; do
@@ -193,6 +193,7 @@ rm "forge-${mc_forge_version}-installer.jar"
 # script, server_manager.sh. Version and important information
 # from the install script will be passed in a seperate file
 # which needs to be sourced by the manager.
+mkdir ${management_dir}
 echo "Creating Start Script"
 touch "${management_dir}/start_server.sh"
 echo "#!/bin/bash" > "${management_dir}/start_server.sh"
