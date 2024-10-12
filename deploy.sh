@@ -190,4 +190,5 @@ PID=$!
 )
 
 echo "Removing Installer"
-# rm "forge-${version}-installer.jar"
+rm "forge-${version}-installer.jar"
+mv "forge-${version}-installer.jar.log" $management_logs
