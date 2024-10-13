@@ -183,11 +183,11 @@ chmod 600 $management_dir/.env
 echo "# General Information"
 echo "server_name=${version}" >> .env
 echo "version=${name}" >> .env
-echo " "
-echo "# Paths"
-echo "main=${working_dir}"
-echo "server=${server_dir}"
-echo "management=${management_dir}"
+echo " " >> .env
+echo "# Paths" >> .env
+echo "main=${working_dir}" >> .env
+echo "server=${server_dir}" >> .env
+echo "management=${management_dir}" >> .env
 
 
 # --------------------------------------------------------
