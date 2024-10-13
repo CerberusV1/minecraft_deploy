@@ -159,13 +159,13 @@ mv "forge-${version}-installer.jar.log" $management_logs
 rm run.sh
 
 # --------------------------------------------------------
-# Creating Start Script
+# Creating Launch Script
 # --------------------------------------------------------
 # Will be reworked soon. Aim is to create an stattic 
 # script, server_manager.sh. Version and important information
 # from the install script will be passed in a seperate file
 # which needs to be sourced by the manager.
-echo "Creating Start Script"
+echo "Creating Launch Hook"
 echo "There is for now only a headles version available!"
 sleep 5
 touch $server_dir/start_server.sh
@@ -175,8 +175,9 @@ chmod +x $server_dir/start_server.sh
 
 
 # --------------------------------------------------------
-# Creating Start Script
+# Downloading Start Script
 # --------------------------------------------------------
-
-
+echo "Downloading Start Script"
+curl -sS "https://raw.githubusercontent.com/CerberusV1/minecraft_deploy/refs/heads/main/server_manager.sh" >> "${management_dir}/server_manager.sh"
+chmod +x $management_dir/server_manager.sh
 echo "You can now find the management script in $management_dir "
