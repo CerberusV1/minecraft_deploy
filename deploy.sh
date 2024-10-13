@@ -180,7 +180,7 @@ chmod +x $server_dir/start_server.sh
 
 touch $management_dir/.env
 chmod 600 $management_dir/.env
-echo "# General Information"
+echo "# General Information" >> .env
 echo "server_name=${version}" >> .env
 echo "version=${name}" >> .env
 echo " " >> .env
