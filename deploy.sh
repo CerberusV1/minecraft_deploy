@@ -180,14 +180,18 @@ chmod +x $server_dir/start_server.sh
 
 touch $management_dir/.env
 chmod 600 $management_dir/.env
-echo "# General Information" >> .env
-echo "server_name=${version}" >> .env
-echo "version=${name}" >> .env
-echo " " >> .env
-echo "# Paths" >> .env
-echo "main=${working_dir}" >> .env
-echo "server=${server_dir}" >> .env
-echo "management=${management_dir}" >> .env
+echo "# General Information" >> $management_dir/.env
+echo "server_name=${version}" >> $management_dir/.env
+echo "version=${name}" >> $management_dir/.env
+echo " " >> $management_dir/.env
+echo "# Paths" >> $management_dir/.env
+echo "main=${working_dir}" >> $management_dir/.env
+echo "server=${server_dir}" >> $management_dir/.env
+echo "management=${management_dir}" >> $management_dir/.env
+echo "logs=${management_logs}" >> $management_dir/.env
+echo " " >> $management_dir/.env
+echo "# Start Script" >> $management_dir/.env
+echo "s_start=${server_dir}/start_server.sh" >> $management_dir/.env
 
 
 # --------------------------------------------------------
