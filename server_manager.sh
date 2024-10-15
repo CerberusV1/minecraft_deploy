@@ -27,7 +27,7 @@ while true; do
     clear
     # Optionen definieren
     options=("Start Server" "Connect to Server" "Set EULA" "Set RAM" "Install Mods" "Exit")                 # Lists all the Options available in the script
-    echo "ServerManager"
+    echo "               ServerManager"
     echo "----------------------------------------------"
     select opt in "${options[@]}"; do                                                                       # Selects an option from a list and then does this
         case $opt in
@@ -35,7 +35,7 @@ while true; do
                 # Add an interaction Do you want to start the server y/n, so he is not starting
                 # right away.
                 clear
-                echo "Launch Menu"
+                echo "                     Launch Menu"
                 echo "------------------------------------------------------------"
                 if [[ -e "${server}/eula.txt" ]]; then                                                      # Checks if the EULA file exists
                     condition=$(cat "${server}/eula.txt" | grep -c "eula=true")                             # Sets the condition, in this case counting how many lines with eula=true exist in the EULA file
@@ -56,7 +56,7 @@ while true; do
             ;;
             "Connect to Server")
                 clear
-                echo "Launch Menu"
+                echo "                   Connecting to Server"
                 echo "------------------------------------------------------------"
                 # Add a chck before connecting to the session if the session already exists
                 # if not promt the user to start it manually 
@@ -67,7 +67,7 @@ while true; do
             "Set EULA")
                 current_date=$(date)
                 clear
-                echo "                   Setting EULA                             "
+                echo "                      Setting EULA                          "
                 echo "------------------------------------------------------------"
                 echo "In order to start an minecraft Server you have to accept it."
                 echo "You can find more information here:                         "
