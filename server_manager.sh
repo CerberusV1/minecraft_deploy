@@ -41,16 +41,15 @@ while true; do
                         echo "Before starting the server, please accept the EULA"
                     else
                         echo "Something went wrong, please recreate the EULA"
-                        exit 1
                     fi
                 else
                     echo "Before starting the server, please accept the EULA"
-                    exit 2
                 fi
                 read -p "Press Enter to continue..."
                 break
             ;;
             "Set EULA")
+                current_date=$(date)
                 clear
                 echo "                   Setting EULA                             "
                 echo "------------------------------------------------------------"
