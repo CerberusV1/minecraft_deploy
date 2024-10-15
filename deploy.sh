@@ -170,7 +170,7 @@ echo "There is for now only a headles version available!"
 sleep 5
 touch $server_dir/start_server.sh
 echo "#!/bin/bash" > "${server_dir}/start_server.sh"
-echo "java -Djava.awt.headless=true @user_jvm_args.txt @libraries/net/minecraftforge/forge/${version}/unix_args.txt >> ${management_logs}/tmux_server.log 2>&1" >> "${server_dir}/start_server.sh"
+echo "java -Djava.awt.headless=true @user_jvm_args.txt @libraries/net/minecraftforge/forge/${version}/unix_args.txt"
 chmod +x $server_dir/start_server.sh
 
 
