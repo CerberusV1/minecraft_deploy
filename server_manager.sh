@@ -26,12 +26,15 @@ PS3=""
 while true; do
     clear
     # Optionen definieren
-    options=("Start Server" "Set EULA" "Set RAM" "Install Mods" "Exit")
+    options=("Start Server" "Connect to Server" "Set EULA" "Set RAM" "Install Mods" "Exit")
     echo "ServerManager"
     echo "----------------------------------------------"
     select opt in "${options[@]}"; do
         case $opt in
             "Start Server")
+                clear
+                echo "Launch Menu"
+                echo "------------------------------------------------------------"
                 if [[ -e "${server}/eula.txt" ]]; then
                     condition=$(cat "${server}/eula.txt" | grep -c "eula=true")
                     if [[ ${condition} -eq 1 ]]; then
