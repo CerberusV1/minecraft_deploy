@@ -39,7 +39,7 @@ while true; do
                     condition=$(cat "${server}/eula.txt" | grep -c "eula=true")
                     if [[ ${condition} -eq 1 ]]; then
                         echo "Starting Server...."
-                        .${s_start}
+                        tmux new -d -s "${server_name}" "${s_start}"
                         elif [[ ${condition} -eq 0 ]]; then
                         echo "Before starting the server, please accept the EULA"
                     else
@@ -55,7 +55,7 @@ while true; do
                 clear
                 echo "Launch Menu"
                 echo "------------------------------------------------------------"
-                tmux a -t ${server_name}
+                tmux a -t "${server_name}"
                 read -p "Press Enter to continue..."
                 break
             ;;

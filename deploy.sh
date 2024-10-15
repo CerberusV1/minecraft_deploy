@@ -170,7 +170,7 @@ echo "There is for now only a headles version available!"
 sleep 5
 touch $server_dir/start_server.sh
 echo "#!/bin/bash" > "${server_dir}/start_server.sh"
-echo "tmux new -d -s ${name} '"java -Djava.awt.headless=true @user_jvm_args.txt @libraries/net/minecraftforge/forge/${version}/user_jvm_args.txt"' >> ${management_logs}/tmux_server.log 2>&1" >> "${server_dir}/start_server.sh"
+echo "java -Djava.awt.headless=true @user_jvm_args.txt @libraries/net/minecraftforge/forge/${version}/unix_args.txt >> ${management_logs}/tmux_server.log 2>&1" >> "${server_dir}/start_server.sh"
 chmod +x $server_dir/start_server.sh
 
 
@@ -181,8 +181,8 @@ chmod +x $server_dir/start_server.sh
 touch $management_dir/.env
 chmod 600 $management_dir/.env
 echo "# General Information" >> $management_dir/.env
-echo "server_name=${version}" >> $management_dir/.env
-echo "version=${name}" >> $management_dir/.env
+echo "server_name=${name}" >> $management_dir/.env
+echo "version=${version}" >> $management_dir/.env
 echo " " >> $management_dir/.env
 echo "# Paths" >> $management_dir/.env
 echo "main=${working_dir}" >> $management_dir/.env
