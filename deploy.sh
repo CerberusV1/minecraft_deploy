@@ -201,3 +201,6 @@ echo "Downloading Start Script"
 curl -sS "https://raw.githubusercontent.com/CerberusV1/minecraft_deploy/refs/heads/main/server_manager.sh" >> "${management_dir}/server_manager.sh"
 chmod +x $management_dir/server_manager.sh
 echo "You can now find the management script in $management_dir "
+echo "--------------------------------------------------------------------------------------------"
+echo "To run the ServerManager copy following line:"
+echo "${management_dir}/./server_manager.sh" 
