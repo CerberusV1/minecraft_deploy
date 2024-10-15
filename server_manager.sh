@@ -51,6 +51,14 @@ while true; do
                 read -p "Press Enter to continue..."
                 break
             ;;
+            "Connect to Server")
+                clear
+                echo "Launch Menu"
+                echo "------------------------------------------------------------"
+                tmux a -t ${server_name}
+                read -p "Press Enter to continue..."
+                break
+            ;;
             "Set EULA")
                 current_date=$(date)
                 clear
