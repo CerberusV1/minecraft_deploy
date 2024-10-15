@@ -32,6 +32,8 @@ while true; do
     select opt in "${options[@]}"; do
         case $opt in
             "Start Server")
+            # Add an interaction Do you want to start the server y/n, so he is not starting
+            # right away.
                 clear
                 echo "Launch Menu"
                 echo "------------------------------------------------------------"
@@ -39,7 +41,8 @@ while true; do
                     condition=$(cat "${server}/eula.txt" | grep -c "eula=true")
                     if [[ ${condition} -eq 1 ]]; then
                         echo "Starting Server...."
-                        tmux new -d -s "${server_name}" "${s_start}"
+                        cd "${server}"
+                        tmux new -d -s "${server_name}" "./start_server.sh"
                         elif [[ ${condition} -eq 0 ]]; then
                         echo "Before starting the server, please accept the EULA"
                     else
@@ -55,6 +58,7 @@ while true; do
                 clear
                 echo "Launch Menu"
                 echo "------------------------------------------------------------"
+                # Here will be also a check if a session is running. If no session is running, redirect to start the server.
                 tmux a -t "${server_name}"
                 read -p "Press Enter to continue..."
                 break
@@ -64,7 +68,11 @@ while true; do
                 clear
                 echo "                   Setting EULA                             "
                 echo "------------------------------------------------------------"
-                read -p "Do you accept the Minecraft EULA? y/n" eula_answer
+                echo "In order to start an minecraft Server you have to accept it."
+                echo "You can find more information here:                         "
+                echo "https://www.minecraft.net/en-us/eula                        "
+                echo "------------------------------------------------------------"
+                read -p "Do you accept the Minecraft EULA? [y/n]: " eula_answer
                 if [[ ${eula_answer} == "y" ]]; then
                     echo "# ${current_date}" > "${server}/eula.txt"
                     echo "eula=true" >> "${server}/eula.txt"
