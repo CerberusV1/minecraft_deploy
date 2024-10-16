@@ -37,7 +37,7 @@ while true; do
                 clear
                 echo "                     Launch Menu"
                 echo "------------------------------------------------------------"
-                read -p "Do you want to start the server? [y/n] " start_answer
+                read -p "Do you want to start the server? [y/n] " start_answer                                  # Promting before actually starting the server
                 if [[ ${eula_answer} == "y" ]]; then
                     if [[ -e "${server}/eula.txt" ]]; then                                                      # Checks if the EULA file exists
                         condition=$(cat "${server}/eula.txt" | grep -c "eula=true")                             # Sets the condition, in this case counting how many lines with eula=true exist in the EULA file
