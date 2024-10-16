@@ -46,7 +46,7 @@ while true; do
                             # To check for sessions tmux ls and to reconnect to an existing one tmux a -t session_name
                             tmux new -d -s "${server_name}" "./start_server.sh"
                             # If EULA is not accepted, tells the user to accept the EULA before
-                        elif [[ ${condition} -eq 0 ]]; then
+                            elif [[ ${condition} -eq 0 ]]; then
                             echo "Before starting the server, please accept the EULA"
                             # An case that should only appear if more than just one EULA entry was made.
                             # Either commented or not. This should be easily fixed by accepting the EULA again
@@ -62,7 +62,7 @@ while true; do
                         echo "error - missing file "eula.txt""
                     fi
                     # If the user prompts n in the server start menu, he returns back to the main menu
-                elif [[ ${start_answer} == "n" ]]; then
+                    elif [[ ${start_answer} == "n" ]]; then
                     break
                     # If the user prompts something else than y or n in the server start menu, he returns back to the main menu
                 else
@@ -103,7 +103,7 @@ while true; do
                     # If the user promts no, the EULA gets created/ overwritten and sets it to false.
                     # User also gets a reminder that he will not be able to start the server without accepting
                     # to it
-                elif [[ ${eula_answer} == "n" ]]; then
+                    elif [[ ${eula_answer} == "n" ]]; then
                     echo "# ${current_date}" > "${server}/eula.txt"
                     echo "eula=false" >> "${server}/eula.txt"
                     echo "Caution: You will not be able to start the serverwithout accepting to the EULA."
@@ -114,55 +114,62 @@ while true; do
                 break
             ;;
             "Set RAM")
-                clear
-                echo "                       Allocate RAM                         "
-                echo "------------------------------------------------------------"
-                presets=("1 GB" "2 GB" "4 GB" "8 GB" "16 GB" "Check")
-                select opt in "${presets[@]}"; do
-                    case $opt in
-                        "1 GB")
-                            echo "------------------------"
-                            echo "Allocated 1GB of RAM"
-                            echo "-Xms512M" > "${server}/user_jvm_args.txt"
-                            echo "-Xmx1G" >> "${server}/user_jvm_args.txt"
-                        ;;
-                        "2 GB")
-                            echo "------------------------"
-                            echo "Allocated 2GB of RAM"
-                            echo "-Xms1G" > "${server}/user_jvm_args.txt"
-                            echo "-Xmx2G" >> "${server}/user_jvm_args.txt"
-                        ;;
-                        "4 GB")
-                            echo "------------------------"
-                            echo "Allocated 4GB of RAM"
-                            echo "-Xms2G" > "${server}/user_jvm_args.txt"
-                            echo "-Xmx4G" >> "${server}/user_jvm_args.txt"
-                        ;;
-                        "8 GB")
-                            echo "------------------------"
-                            echo "Allocated 8GB of RAM"
-                            echo "-Xms4G" > "${server}/user_jvm_args.txt"
-                            echo "-Xmx8G" >> "${server}/user_jvm_args.txt"
-                        ;;
-                        "16 GB")
-                            echo "------------------------"
-                            echo "Allocated 16GB of RAM"
-                            echo "-Xms8G" > "${server}/user_jvm_args.txt"
-                            echo "-Xmx16G" >> "${server}/user_jvm_args.txt"
-                        ;;
-                        "Check")
-                            echo "------------------------"
-                            echo "User Args: "
-                            echo " "
-                            cat "${server}/user_jvm_args.txt"
-                            echo " "
-                            break
-                        ;;
-                        *)
-                            echo "invalid input"
-                            break
-                        ;;
-                    esac
+                while true; do
+                    clear
+                    echo "                       Allocate RAM                         "
+                    echo "------------------------------------------------------------"
+                    presets=("1 GB" "2 GB" "4 GB" "8 GB" "16 GB" "Check")
+                    select opt in "${presets[@]}"; do
+                        case $opt in
+                            "1 GB")
+                                clear
+                                echo "------------------------"
+                                echo "Allocated 1GB of RAM"
+                                echo "-Xms512M" > "${server}/user_jvm_args.txt"
+                                echo "-Xmx1G" >> "${server}/user_jvm_args.txt"
+                            ;;
+                            "2 GB")
+                                clear
+                                echo "------------------------"
+                                echo "Allocated 2GB of RAM"
+                                echo "-Xms1G" > "${server}/user_jvm_args.txt"
+                                echo "-Xmx2G" >> "${server}/user_jvm_args.txt"
+                            ;;
+                            "4 GB")
+                                clear
+                                echo "------------------------"
+                                echo "Allocated 4GB of RAM"
+                                echo "-Xms2G" > "${server}/user_jvm_args.txt"
+                                echo "-Xmx4G" >> "${server}/user_jvm_args.txt"
+                            ;;
+                            "8 GB")
+                                clear
+                                echo "------------------------"
+                                echo "Allocated 8GB of RAM"
+                                echo "-Xms4G" > "${server}/user_jvm_args.txt"
+                                echo "-Xmx8G" >> "${server}/user_jvm_args.txt"
+                            ;;
+                            "16 GB")
+                                clear
+                                echo "------------------------"
+                                echo "Allocated 16GB of RAM"
+                                echo "-Xms8G" > "${server}/user_jvm_args.txt"
+                                echo "-Xmx16G" >> "${server}/user_jvm_args.txt"
+                            ;;
+                            "Check")
+                                echo "------------------------"
+                                echo "User Args: "
+                                echo " "
+                                cat "${server}/user_jvm_args.txt"
+                                echo " "
+                                break
+                            ;;
+                            *)
+                                echo "invalid input"
+                                break
+                            ;;
+                        esac
+                    done
                 done
                 read -p "Press Enter to return to main menu"
                 break
