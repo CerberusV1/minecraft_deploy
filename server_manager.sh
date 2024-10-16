@@ -127,6 +127,7 @@ while true; do
                                 echo "Allocated 1GB of RAM"
                                 echo "-Xms512M" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx1G" >> "${server}/user_jvm_args.txt"
+                                read -p "Press [ENTER] to continue"
                                 break
                             ;;
                             "2 GB")
@@ -134,6 +135,7 @@ while true; do
                                 echo "Allocated 2GB of RAM"
                                 echo "-Xms1G" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx2G" >> "${server}/user_jvm_args.txt"
+                                read -p "Press [ENTER] to continue"
                                 break
                             ;;
                             "4 GB")
@@ -141,6 +143,7 @@ while true; do
                                 echo "Allocated 4GB of RAM"
                                 echo "-Xms2G" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx4G" >> "${server}/user_jvm_args.txt"
+                                read -p "Press [ENTER] to continue"
                                 break
                             ;;
                             "8 GB")
@@ -148,6 +151,7 @@ while true; do
                                 echo "Allocated 8GB of RAM"
                                 echo "-Xms4G" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx8G" >> "${server}/user_jvm_args.txt"
+                                read -p "Press [ENTER] to continue"
                                 break
                             ;;
                             "16 GB")
@@ -155,6 +159,7 @@ while true; do
                                 echo "Allocated 16GB of RAM"
                                 echo "-Xms8G" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx16G" >> "${server}/user_jvm_args.txt"
+                                read -p "Press [ENTER] to continue"
                                 break 
                             ;;
                             "Check Args")
@@ -163,6 +168,7 @@ while true; do
                                 echo " "
                                 cat "${server}/user_jvm_args.txt"
                                 echo " "
+                                read -p "Press [ENTER] to continue"
                                 break
                             ;;
                             "Back to Main Menu")
