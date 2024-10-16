@@ -1,5 +1,5 @@
 # Minecraft-Server Deployment and management script
-This is an deployment script for minecraft servers. It gets developed to make it easier to setup a minecraft server. It consists of two scripts. The first script (`deploy.sh`) will never be on your computer. `server_manager.sh` gets pulled on your computer in order for you to manage the server.
+This is an deployment script for minecraft servers. It gets developed to make it easier to setup a minecraft server. It consists of two scripts. The first script (`deploy.sh`) will never be on your computer.   "`server_manager.sh`" gets pulled on your computer in order for you to manage the server.
 
 ## Features
 - Server management script:
