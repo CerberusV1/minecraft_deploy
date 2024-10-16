@@ -118,7 +118,7 @@ while true; do
                     clear
                     echo "                       Allocate RAM                         "
                     echo "------------------------------------------------------------"
-                    presets=("1 GB" "2 GB" "4 GB" "8 GB" "16 GB" "Check")
+                    presets=("1 GB" "2 GB" "4 GB" "8 GB" "16 GB" "Check Args" "Back to Main Menu")
                     select opt in "${presets[@]}"; do
                         case $opt in
                             "1 GB")
@@ -127,42 +127,46 @@ while true; do
                                 echo "Allocated 1GB of RAM"
                                 echo "-Xms512M" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx1G" >> "${server}/user_jvm_args.txt"
+                                break
                             ;;
                             "2 GB")
-                                clear
                                 echo "------------------------"
                                 echo "Allocated 2GB of RAM"
                                 echo "-Xms1G" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx2G" >> "${server}/user_jvm_args.txt"
+                                break
                             ;;
                             "4 GB")
-                                clear
                                 echo "------------------------"
                                 echo "Allocated 4GB of RAM"
                                 echo "-Xms2G" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx4G" >> "${server}/user_jvm_args.txt"
+                                break
                             ;;
                             "8 GB")
-                                clear
                                 echo "------------------------"
                                 echo "Allocated 8GB of RAM"
                                 echo "-Xms4G" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx8G" >> "${server}/user_jvm_args.txt"
+                                break
                             ;;
                             "16 GB")
-                                clear
                                 echo "------------------------"
                                 echo "Allocated 16GB of RAM"
                                 echo "-Xms8G" > "${server}/user_jvm_args.txt"
                                 echo "-Xmx16G" >> "${server}/user_jvm_args.txt"
+                                break 
                             ;;
-                            "Check")
+                            "Check Args")
                                 echo "------------------------"
                                 echo "User Args: "
                                 echo " "
                                 cat "${server}/user_jvm_args.txt"
                                 echo " "
                                 break
+                            ;;
+                            "Back to Main Menu")
+                                break 2
                             ;;
                             *)
                                 echo "invalid input"
