@@ -29,7 +29,6 @@ bash -c "$(curl -sS https://raw.githubusercontent.com/CerberusV1/minecraft_deplo
 # ToDo´s
 - Adding Fabric and Paper support
 - Refactor `deploy.sh` to unify the installation process for all loaders
-- Adding the option to set the RAM in `user_jvm_args.txt`
 - Adding check for existing sessions before starting the server
 - Add support for a non-headless session (might not happen)
 - Adding mod installer from link
