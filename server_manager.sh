@@ -37,20 +37,28 @@ while true; do
                 clear
                 echo "                     Launch Menu"
                 echo "------------------------------------------------------------"
-                if [[ -e "${server}/eula.txt" ]]; then                                                      # Checks if the EULA file exists
-                    condition=$(cat "${server}/eula.txt" | grep -c "eula=true")                             # Sets the condition, in this case counting how many lines with eula=true exist in the EULA file
-                    if [[ ${condition} -eq 1 ]]; then                                                       # If EULA is accepted, start the server
-                        echo "Starting Server...."
-                        cd "${server}"                                                                      # Change directory to where the start script is to avoid a tmux exit
-                        tmux new -d -s "${server_name}" "./start_server.sh"                                 # Starts the server detatched in a new session
-                    elif [[ ${condition} -eq 0 ]]; then                                                     # If EULA is not accepted, start the server
-                        echo "Before starting the server, please accept the EULA"
+                read -p "Do you want to start the server? [y/n] " start_answer
+                if [[ ${eula_answer} == "y" ]]; then
+                    if [[ -e "${server}/eula.txt" ]]; then                                                      # Checks if the EULA file exists
+                        condition=$(cat "${server}/eula.txt" | grep -c "eula=true")                             # Sets the condition, in this case counting how many lines with eula=true exist in the EULA file
+                        if [[ ${condition} -eq 1 ]]; then                                                       # If EULA is accepted, start the server
+                            echo "Starting Server...."
+                            cd "${server}"                                                                      # Change directory to where the start script is to avoid a tmux exit
+                            tmux new -d -s "${server_name}" "./start_server.sh"                                 # Starts the server detatched in a new session
+                        elif [[ ${condition} -eq 0 ]]; then                                                     # If EULA is not accepted, start the server
+                            echo "Before starting the server, please accept the EULA"
+                        else
+                            echo "Something went wrong, please recreate the EULA"
+                        fi
                     else
-                        echo "Something went wrong, please recreate the EULA"
-                    fi
+                        echo "Before starting the server, please accept the EULA"
+                    fi                    
+                elif [[ ${eula_answer} == "n" ]]; then
+                    break
                 else
-                    echo "Before starting the server, please accept the EULA"
-                fi
+                    echo "Invalid input"
+                    break
+                fi                
                 read -p "Press Enter to continue..."
                 break
             ;;
@@ -59,7 +67,7 @@ while true; do
                 echo "                   Connecting to Server"
                 echo "------------------------------------------------------------"
                 # Add a chck before connecting to the session if the session already exists
-                # if not promt the user to start it manually 
+                # if not promt the user to start it manually
                 tmux a -t "${server_name}"                                                                  # Attaches to the running tmux session of the server if the session exists
                 read -p "Press Enter to continue..."
                 break
@@ -77,7 +85,7 @@ while true; do
                 if [[ ${eula_answer} == "y" ]]; then
                     echo "# ${current_date}" > "${server}/eula.txt"
                     echo "eula=true" >> "${server}/eula.txt"
-                elif [[ ${eula_answer} == "n" ]]; then
+                    elif [[ ${eula_answer} == "n" ]]; then
                     echo "# ${current_date}" > "${server}/eula.txt"
                     echo "eula=false" >> "${server}/eula.txt"
                     echo "You will not be able to start the server!"
