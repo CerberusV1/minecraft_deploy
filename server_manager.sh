@@ -117,7 +117,6 @@ while true; do
                 clear
                 echo "                       Allocate RAM                         "
                 echo "------------------------------------------------------------"
-                clear
                 presets=("1 GB" "2 GB" "4 GB" "8 GB" "16 GB" "Check")
                 select opt in "${presets[@]}"; do
                     case $opt in
@@ -125,43 +124,38 @@ while true; do
                             echo "Allocate 1GB of RAM"
                             echo "-Xms512M" > "${server}/user_jvm_args.txt"
                             echo "-Xmx1G" >> "${server}/user_jvm_args.txt"
-                            break
                         ;;
                         "2 GB")
                             echo "Allocate 2GB of RAM"
                             echo "-Xms1G" > "${server}/user_jvm_args.txt"
                             echo "-Xmx2G" >> "${server}/user_jvm_args.txt"
-                            break
                         ;;
                         "4 GB")
                             echo "Allocate 4GB of RAM"
                             echo "-Xms2G" > "${server}/user_jvm_args.txt"
                             echo "-Xmx4G" >> "${server}/user_jvm_args.txt"
-                            break
                         ;;
                         "8 GB")
                             echo "Allocate 8GB of RAM"
                             echo "-Xms4G" > "${server}/user_jvm_args.txt"
                             echo "-Xmx8G" >> "${server}/user_jvm_args.txt"
-                            break
                         ;;
                         "16 GB")
                             echo "Allocate 16GB of RAM"
                             echo "-Xms8G" > "${server}/user_jvm_args.txt"
                             echo "-Xmx16G" >> "${server}/user_jvm_args.txt"
-                            break
                         ;;
                         "Check")
                             cat "${server}/user_jvm_args.txt"
-                            read -p "Enter"
                             break
                         ;;
                         *)
                             echo "invalid input"
+                            break
                         ;;
                     esac
                 done
-                read -p "Press Enter to continue..."
+                read -p "Press Enter to return to main menu"
                 break
             ;;
             "Install Mods")
