@@ -3,63 +3,73 @@
 # Script in strict mode
 set -eu
 # --------------------------------------------------------------------------
-# Imports
+# Imports:
+# --------------------------------------------------------------------------
+
+# Sourcing the .env file which contains the server information
+source .env
 
 # --------------------------------------------------------------------------
 # Beginning Of the Script by cerberus
-
-#cat <<EOF
-# __  __                                                   _
-#|  \/  | __ _ _ __   __ _  __ _  ___ _ __ ___   ___ _ __ | |_
-#| |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '_ ` _ \ / _ \ '_ \| __|
-#| |  | | (_| | | | | (_| | (_| |  __/ | | | | |  __/ | | | |_
-#|_|  |_|\__,_|_| |_|\__,_|\__, |\___|_| |_| |_|\___|_| |_|\__|
-#                          |___/
-#EOF
-source .env
-
-# cat .env
+# --------------------------------------------------------------------------
 
 # Set empty promt
 PS3=""
 
 while true; do
     clear
-    # Optionen definieren
-    options=("Start Server" "Connect to Server" "Set EULA" "Set RAM" "Install Mods" "Exit")                 # Lists all the Options available in the script
+    # Lists all the Options available in the script
+    options=("Start Server" "Connect to Server" "Set EULA" "Set RAM" "Install Mods" "Exit")                     
     echo "               ServerManager"
     echo "----------------------------------------------"
-    select opt in "${options[@]}"; do                                                                       # Selects an option from a list and then does this
+    # Selects an option from a list and executes it
+    select opt in "${options[@]}"; do
         case $opt in
             "Start Server")
-                # Add an interaction Do you want to start the server y/n, so he is not starting
-                # right away.
                 clear
                 echo "                     Launch Menu"
                 echo "------------------------------------------------------------"
-                read -p "Do you want to start the server? [y/n] " start_answer                                  # Promting before actually starting the server
+                # Promting before actually starting the server
+                read -p "Do you want to start the server? [y/n] " start_answer
+                # Checks if the EULA file exists                                  
                 if [[ ${start_answer} == "y" ]]; then
-                    if [[ -e "${server}/eula.txt" ]]; then                                                      # Checks if the EULA file exists
-                        condition=$(cat "${server}/eula.txt" | grep -c "eula=true")                             # Sets the condition, in this case counting how many lines with eula=true exist in the EULA file
-                        if [[ ${condition} -eq 1 ]]; then                                                       # If EULA is accepted, start the server
+                    if [[ -e "${server}/eula.txt" ]]; then
+                        # Sets the condition, in this case counting how many lines with eula=true exist in the EULA file                                                      
+                        condition=$(cat "${server}/eula.txt" | grep -c "eula=true")
+                        # If EULA is accepted, start the server
+                        if [[ ${condition} -eq 1 ]]; then
                             echo "Starting Server...."
-                            cd "${server}"                                                                      # Change directory to where the start script is to avoid a tmux exit
-                            tmux new -d -s "${server_name}" "./start_server.sh"                                 # Starts the server detatched in a new session
-                        elif [[ ${condition} -eq 0 ]]; then                                                     # If EULA is not accepted, start the server
+                            # Change directory to where the start script is to avoid a tmux error [exited]
+                            # without any other error message
+                            cd "${server}"
+                            # Starts the server detatched in a new session
+                            # To check for sessions tmux ls and to reconnect to an existing one tmux a -t session_name
+                            tmux new -d -s "${server_name}" "./start_server.sh"
+                        # If EULA is not accepted, tells the user to accept the EULA before
+                        elif [[ ${condition} -eq 0 ]]; then
                             echo "Before starting the server, please accept the EULA"
+                        # An case that should only appear if more than just one EULA entry was made.
+                        # Either commented or not. This should be easily fixed by accepting the EULA again 
+                        # since every action in this menu doesn´t matter if agreed or not, the file gets
+                        # overwritten
+                        # Using "Set EULA" should fix that
                         else
                             echo "Something went wrong, please recreate the EULA"
                         fi
+                    # Error massage if the EULA file does not exist. Using "Set EULA" should fix that
                     else
                         echo "Before starting the server, please accept the EULA"
-                    fi                    
+                        echo "error - missing file "eula.txt""
+                    fi
+                # If the user prompts n in the server start menu, he returns back to the main menu                    
                 elif [[ ${start_answer} == "n" ]]; then
                     break
+                # If the user prompts something else than y or n in the server start menu, he returns back to the main menu
                 else
                     echo "Invalid input"
                     break
                 fi                
-                read -p "Press Enter to continue..."
+                read -p "Press Enter to return to the menu"
                 break
             ;;
             "Connect to Server")
@@ -68,7 +78,9 @@ while true; do
                 echo "------------------------------------------------------------"
                 # Add a chck before connecting to the session if the session already exists
                 # if not promt the user to start it manually
-                tmux a -t "${server_name}"                                                                  # Attaches to the running tmux session of the server if the session exists
+                # -----------------------------------------------------------------------------
+                # Attaches to the running tmux session of the server if the session exists
+                tmux a -t "${server_name}"                                                                  
                 read -p "Press Enter to continue..."
                 break
             ;;
@@ -81,16 +93,21 @@ while true; do
                 echo "You can find more information here:                         "
                 echo "https://www.minecraft.net/en-us/eula                        "
                 echo "------------------------------------------------------------"
+                # Promts the user if he wants to accept or not accept the minecraft EULA
                 read -p "Do you accept the Minecraft EULA? [y/n]: " eula_answer
+                # If the user promts yes, the EULA gets created/ overwritten and sets it to true
                 if [[ ${eula_answer} == "y" ]]; then
                     echo "# ${current_date}" > "${server}/eula.txt"
                     echo "eula=true" >> "${server}/eula.txt"
-                    elif [[ ${eula_answer} == "n" ]]; then
+                # If the user promts no, the EULA gets created/ overwritten and sets it to false.
+                # User also gets a reminder that he will not be able to start the server without accepting
+                # to it
+                elif [[ ${eula_answer} == "n" ]]; then
                     echo "# ${current_date}" > "${server}/eula.txt"
                     echo "eula=false" >> "${server}/eula.txt"
-                    echo "You will not be able to start the server!"
+                    echo "Caution: You will not be able to start the serverwithout accepting to the EULA."
                 else
-                    echo "Invalid input"
+                    echo "Invalid input!"
                 fi
                 read -p "Press Enter to continue..."
                 break
@@ -106,7 +123,6 @@ while true; do
                 break
             ;;
             "Exit")
-                echo "Exiting script. Goodbye!"
                 exit 0
             ;;
             *)
