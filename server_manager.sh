@@ -121,32 +121,41 @@ while true; do
                 select opt in "${presets[@]}"; do
                     case $opt in
                         "1 GB")
-                            echo "Allocate 1GB of RAM"
+                            echo "------------------------"
+                            echo "Allocated 1GB of RAM"
                             echo "-Xms512M" > "${server}/user_jvm_args.txt"
                             echo "-Xmx1G" >> "${server}/user_jvm_args.txt"
                         ;;
                         "2 GB")
-                            echo "Allocate 2GB of RAM"
+                            echo "------------------------"
+                            echo "Allocated 2GB of RAM"
                             echo "-Xms1G" > "${server}/user_jvm_args.txt"
                             echo "-Xmx2G" >> "${server}/user_jvm_args.txt"
                         ;;
                         "4 GB")
-                            echo "Allocate 4GB of RAM"
+                            echo "------------------------"
+                            echo "Allocated 4GB of RAM"
                             echo "-Xms2G" > "${server}/user_jvm_args.txt"
                             echo "-Xmx4G" >> "${server}/user_jvm_args.txt"
                         ;;
                         "8 GB")
-                            echo "Allocate 8GB of RAM"
+                            echo "------------------------"
+                            echo "Allocated 8GB of RAM"
                             echo "-Xms4G" > "${server}/user_jvm_args.txt"
                             echo "-Xmx8G" >> "${server}/user_jvm_args.txt"
                         ;;
                         "16 GB")
-                            echo "Allocate 16GB of RAM"
+                            echo "------------------------"
+                            echo "Allocated 16GB of RAM"
                             echo "-Xms8G" > "${server}/user_jvm_args.txt"
                             echo "-Xmx16G" >> "${server}/user_jvm_args.txt"
                         ;;
                         "Check")
+                            echo "------------------------"
+                            echo "User Args: "
+                            echo " "
                             cat "${server}/user_jvm_args.txt"
+                            echo " "
                             break
                         ;;
                         *)
