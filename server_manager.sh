@@ -76,12 +76,13 @@ while true; do
                 clear
                 echo "                   Connecting to Server"
                 echo "------------------------------------------------------------"
-                # Add a chck before connecting to the session if the session already exists
-                # if not promt the user to start it manually
-                # -----------------------------------------------------------------------------
-                # Attaches to the running tmux session of the server if the session exists
-                tmux a -t "${server_name}"                                                                  
-                read -p "Press Enter to continue..."
+                if tmux has-session -t ${server_name} 2>/dev/null; then
+                    # Attaches to the running tmux session of the server if the session exists
+                    tmux a -t "${server_name}"
+                else
+                    echo "You need to start the server before trying to connect to it."
+                    read -p "Press Enter to continue..."
+                fi
                 break
             ;;
             "Set EULA")
