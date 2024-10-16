@@ -38,7 +38,7 @@ while true; do
                 echo "                     Launch Menu"
                 echo "------------------------------------------------------------"
                 read -p "Do you want to start the server? [y/n] " start_answer                                  # Promting before actually starting the server
-                if [[ ${eula_answer} == "y" ]]; then
+                if [[ ${start_answer} == "y" ]]; then
                     if [[ -e "${server}/eula.txt" ]]; then                                                      # Checks if the EULA file exists
                         condition=$(cat "${server}/eula.txt" | grep -c "eula=true")                             # Sets the condition, in this case counting how many lines with eula=true exist in the EULA file
                         if [[ ${condition} -eq 1 ]]; then                                                       # If EULA is accepted, start the server
@@ -53,7 +53,7 @@ while true; do
                     else
                         echo "Before starting the server, please accept the EULA"
                     fi                    
-                elif [[ ${eula_answer} == "n" ]]; then
+                elif [[ ${start_answer} == "n" ]]; then
                     break
                 else
                     echo "Invalid input"
