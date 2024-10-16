@@ -33,4 +33,5 @@ bash -c "$(curl -sS https://raw.githubusercontent.com/CerberusV1/minecraft_deplo
 - Adding check for existing sessions before starting the server
 - Add support for a non-headless session (might not happen)
 - Adding mod installer from link
-- Adding world import (ideas on how to do that would be appreciated) 
+- Adding world import (ideas on how to do that would be appreciated)
+- Adding option to import/export white/blacklist
