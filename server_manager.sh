@@ -181,7 +181,6 @@ while true; do
                         esac
                     done
                 done
-                read -p "Press Enter to return to main menu"
                 break
             ;;
             "Install Mods")
