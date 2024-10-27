@@ -34,3 +34,4 @@ bash -c "$(curl -sS https://raw.githubusercontent.com/CerberusV1/minecraft_deplo
 - Adding mod installer from link
 - Adding world import (ideas on how to do that would be appreciated)
 - Adding option to import/export white/blacklist
+- Add backup function for the world/whole server dir
