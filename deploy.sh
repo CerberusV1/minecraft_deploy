@@ -62,6 +62,8 @@ echo "find all server files and the management script."
 echo 'Use "-" or "_" as name seperator!'
 read -p "Servername: " name
 
+
+# Setting directoriy variables
 working_dir="$HOME/$name"
 management_dir="$HOME/$name/management"
 management_logs="$HOME/$name/management/installation_logs"
@@ -80,7 +82,7 @@ mkdir $server_dir
 
 echo What Modloader should be used?
 
-modloader=("Forge" "Fabric")
+modloader=("Forge" "Fabric" "Paper")
 
 select opt in "${modloader[@]}"
 do
@@ -90,6 +92,11 @@ do
             ;;
         "Fabric")
             echo "Fabric is not supported yet"
+            exit 1
+            break
+            ;;
+        "Paper")
+            echo "Paper is not supported yet"
             exit 1
             break
             ;;

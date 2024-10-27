@@ -46,23 +46,26 @@ while true; do
                             # To check for sessions tmux ls and to reconnect to an existing one tmux a -t session_name
                             tmux new -d -s "${server_name}" "./start_server.sh"
                             # If EULA is not accepted, tells the user to accept the EULA before
-                            elif [[ ${condition} -eq 0 ]]; then
+                        elif [[ ${condition} -eq 0 ]]; then
                             echo "Before starting the server, please accept the EULA"
                             # An case that should only appear if more than just one EULA entry was made.
                             # Either commented or not. This should be easily fixed by accepting the EULA again
                             # since every action in this menu doesn´t matter if agreed or not, the file gets
                             # overwritten
                             # Using "Set EULA" should fix that
+                            break
                         else
                             echo "Something went wrong, please recreate the EULA"
+                            break
                         fi
                         # Error massage if the EULA file does not exist. Using "Set EULA" should fix that
                     else
                         echo "Before starting the server, please accept the EULA"
                         echo "error - missing file "eula.txt""
+                        break
                     fi
                     # If the user prompts n in the server start menu, he returns back to the main menu
-                    elif [[ ${start_answer} == "n" ]]; then
+                elif [[ ${start_answer} == "n" ]]; then
                     break
                     # If the user prompts something else than y or n in the server start menu, he returns back to the main menu
                 else
